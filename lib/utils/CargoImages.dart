@@ -1,0 +1,15 @@
+const cargo_splash='images/splash.jpg';
+const cargo_back_arrow='images/left_arrow.png';
+const cargo_right_arrow='images/right_arrow.png';
+const cargo_verified='images/verified.png';
+const cargo_profile="images/user.png";
+const cargo_ic_home = "images/home_icon.png";
+const cargo_get_order = "images/get_order.png";
+const cargo_how_order = "images/how_order.png";
+const cargo_quote = "images/quote.png";
+const cargo_mobile_quote = "images/quotes_icon.png";
+const cargo_mobile_order = "images/orders_icons.png";
+const cargo_map_location = "images/map_location.png";
+const cargo_logout = "images/logout.png";
+const t1_ic_dialog = "images/t1_ic_dialog.png";
+const cargo_thank_you = "images/thank_you_icon.png";
