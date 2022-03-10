@@ -26,7 +26,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  FirebaseMessaging _firebaseMessaging;
   var emailCont = TextEditingController();
   var cardCont = TextEditingController();
   var userNameCont = TextEditingController();
@@ -55,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void firebaseCloudMessaging_Listeners() async {
-    if (Platform.isIOS) iOS_Permission();
+    // if (Platform.isIOS) iOS_Permission();
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     _firebaseMessaging.getToken().then((token) {
@@ -63,27 +63,27 @@ class _LoginScreenState extends State<LoginScreen> {
       print(token);
     });
 
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print('on message $message');
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print('on resume $message');
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print('on launch $message');
-      },
-    );
+    // _firebaseMessaging.configure(
+    //   onMessage: (Map<String, dynamic> message) async {
+    //     print('on message $message');
+    //   },
+    //   onResume: (Map<String, dynamic> message) async {
+    //     print('on resume $message');
+    //   },
+    //   onLaunch: (Map<String, dynamic> message) async {
+    //     print('on launch $message');
+    //   },
+    // );
   }
 
-  void iOS_Permission() {
-    _firebaseMessaging.requestNotificationPermissions(
-        IosNotificationSettings(sound: true, badge: true, alert: true));
-    _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      print("Settings registered: $settings");
-    });
-  }
+  // void iOS_Permission() {
+  //   _firebaseMessaging.requestNotificationPermissions(
+  //       IosNotificationSettings(sound: true, badge: true, alert: true));
+  //   _firebaseMessaging.onIosSettingsRegistered
+  //       .listen((IosNotificationSettings settings) {
+  //     print("Settings registered: $settings");
+  //   });
+  // }
 
   Future<ShLoginModel> SaveToken() async {
     try {
@@ -101,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
       final msg = jsonEncode({"device_id": device_id});
 
       Response response = await post(
-        'https://cargobgi.net/wp-json/v3/add_device',
+          Uri.parse('https://cargobgi.net/wp-json/v3/add_device'),
         headers: headers,
         body: msg,
       );
@@ -149,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
       final msg = jsonEncode({"username": username.trim(), "password": password.trim()});
 
       Response response = await post(
-        'https://cargobgi.net/wp-json/jwt-auth/v1/token',
+          Uri.parse('https://cargobgi.net/wp-json/jwt-auth/v1/token'),
         headers: headers,
         body: msg,
       );

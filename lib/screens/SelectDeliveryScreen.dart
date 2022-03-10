@@ -74,7 +74,7 @@ class _SelectDeliveryScreenState extends State<SelectDeliveryScreen> {
       };
 
       Response response = await get(
-          'https://cargobgi.net/wp-json/v3/addresses',
+          Uri.parse('https://cargobgi.net/wp-json/v3/addresses'),
           headers: headers);
 
       final jsonResponse = json.decode(response.body);
@@ -109,7 +109,7 @@ class _SelectDeliveryScreenState extends State<SelectDeliveryScreen> {
       final body = jsonEncode({"name": add_id});
 
       Response response = await post(
-          'https://cargobgi.net/wp-json/v3/delete_address',
+          Uri.parse('https://cargobgi.net/wp-json/v3/delete_address'),
           headers: headers,
           body: body);
 

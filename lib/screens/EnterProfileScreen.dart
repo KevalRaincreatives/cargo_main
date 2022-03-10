@@ -37,7 +37,7 @@ class EnterProfileScreen extends StatefulWidget {
 }
 
 class _EnterProfileScreenState extends State<EnterProfileScreen> {
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  FirebaseMessaging _firebaseMessaging;
   var emailCont = TextEditingController();
   var firstNameCont = TextEditingController();
   var lastNameCont = TextEditingController();
@@ -76,42 +76,42 @@ class _EnterProfileScreenState extends State<EnterProfileScreen> {
     // TODO: implement initState
 
     super.initState();
-    firebaseCloudMessaging_Listeners();
+    // firebaseCloudMessaging_Listeners();
 
     countrydetail = fetchcountry();
   }
 
-
-  void firebaseCloudMessaging_Listeners() async {
-    if (Platform.isIOS) iOS_Permission();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    _firebaseMessaging.getToken().then((token) {
-      prefs.setString('device_id', token);
-      print(token);
-    });
-
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print('on message $message');
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print('on resume $message');
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print('on launch $message');
-      },
-    );
-  }
-
-  void iOS_Permission() {
-    _firebaseMessaging.requestNotificationPermissions(
-        IosNotificationSettings(sound: true, badge: true, alert: true));
-    _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      print("Settings registered: $settings");
-    });
-  }
+  //
+  // void firebaseCloudMessaging_Listeners() async {
+  //   if (Platform.isIOS) iOS_Permission();
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //
+  //   _firebaseMessaging.getToken().then((token) {
+  //     prefs.setString('device_id', token);
+  //     print(token);
+  //   });
+  //
+  //   _firebaseMessaging.configure(
+  //     onMessage: (Map<String, dynamic> message) async {
+  //       print('on message $message');
+  //     },
+  //     onResume: (Map<String, dynamic> message) async {
+  //       print('on resume $message');
+  //     },
+  //     onLaunch: (Map<String, dynamic> message) async {
+  //       print('on launch $message');
+  //     },
+  //   );
+  // }
+  //
+  // void iOS_Permission() {
+  //   _firebaseMessaging.requestNotificationPermissions(
+  //       IosNotificationSettings(sound: true, badge: true, alert: true));
+  //   _firebaseMessaging.onIosSettingsRegistered
+  //       .listen((IosNotificationSettings settings) {
+  //     print("Settings registered: $settings");
+  //   });
+  // }
 
   Future<bool> CheckInternet() async {
     bool result = await DataConnectionChecker().hasConnection;
@@ -197,7 +197,7 @@ class _EnterProfileScreenState extends State<EnterProfileScreen> {
       Map<String, String> headers = {'Content-Type': 'application/json'};
 
       Response response = await post(
-        'https://cargobgi.net/wp-json/wc/v3/customers',
+          Uri.parse('https://cargobgi.net/wp-json/wc/v3/customers'),
         headers: headers,
         body: body,
       );
@@ -235,7 +235,7 @@ class _EnterProfileScreenState extends State<EnterProfileScreen> {
       final msg = jsonEncode({"device_id": device_id});
 
       Response response = await post(
-        'https://cargobgi.net/wp-json/v3/add_device',
+          Uri.parse('https://cargobgi.net/wp-json/v3/add_device'),
         headers: headers,
         body: msg,
       );
@@ -267,7 +267,7 @@ class _EnterProfileScreenState extends State<EnterProfileScreen> {
 
 
       Response response = await post(
-        'https://cargobgi.net/wp-json/jwt-auth/v1/token',
+          Uri.parse('https://cargobgi.net/wp-json/jwt-auth/v1/token'),
         headers: headers,
         body: msg,
       );
@@ -304,7 +304,7 @@ class _EnterProfileScreenState extends State<EnterProfileScreen> {
       Map<String, String> headers = {'Content-Type': 'application/json'};
 
       Response response =
-      await get('https://cargobgi.net/wp-json/v3/countries');
+      await get(Uri.parse('https://cargobgi.net/wp-json/v3/countries'));
       final jsonResponse = json.decode(response.body);
 
       countryNewModel = new CountryParishModel.fromJson(jsonResponse);

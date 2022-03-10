@@ -43,7 +43,7 @@ class _QuoteDetailFragmentState extends State<QuoteDetailFragment> {
       };
 
       Response response = await get(
-          'https://cargobgi.net/wp-json/v3/quote_details?quote_id=$quote_id',
+          Uri.parse('https://cargobgi.net/wp-json/v3/quote_details?quote_id=$quote_id'),
         headers: headers);
       final jsonResponse = json.decode(response.body);
       print('not json $jsonResponse');

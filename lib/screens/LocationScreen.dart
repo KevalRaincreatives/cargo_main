@@ -52,7 +52,7 @@ class _LocationScreenState extends State<LocationScreen> {
   Future<Contact2Model> fetchAlbum() async {
     try {
       Response response =
-          await get('https://cargobgi.net/wp-json/v3/contact_info');
+          await get(Uri.parse('https://cargobgi.net/wp-json/v3/contact_info'));
 
       final jsonResponse = json.decode(response.body);
       print('not json $jsonResponse');

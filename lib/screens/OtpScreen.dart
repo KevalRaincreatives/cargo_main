@@ -23,7 +23,6 @@ class OtpScreen extends StatefulWidget {
 class _OtpScreenState extends State<OtpScreen> {
   var emailCont = TextEditingController();
 //  String _verificationId;
-  FirebaseUser _firebaseUser;
   String _status;
   String _verificationId='';
   int _code;

@@ -58,7 +58,7 @@ class _QuoteDetailsScreenState extends State<QuoteDetailsScreen> {
       };
 
       Response response = await get(
-          'https://cargobgi.net/wp-json/v3/quote_details?quote_id=$quote_id',
+          Uri.parse('https://cargobgi.net/wp-json/v3/quote_details?quote_id=$quote_id'),
           headers: headers);
       final jsonResponse = json.decode(response.body);
       print('not json $jsonResponse');
@@ -93,7 +93,7 @@ class _QuoteDetailsScreenState extends State<QuoteDetailsScreen> {
       final msg = jsonEncode({"device_id": device_id});
 
       Response response = await get(
-        'https://cargobgi.net/wp-json/v3/logout?device_id=$device_id',
+          Uri.parse('https://cargobgi.net/wp-json/v3/logout?device_id=$device_id'),
         headers: headers,
       );
       final jsonResponse = json.decode(response.body);

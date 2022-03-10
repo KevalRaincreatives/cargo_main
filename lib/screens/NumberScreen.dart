@@ -35,7 +35,6 @@ class _NumberScreenState extends State<NumberScreen> {
   TextEditingController _phoneNumberController = TextEditingController();
   TextEditingController _otpController = TextEditingController();
 
-  FirebaseUser _firebaseUser;
   String _status;
 
   AuthCredential _phoneAuthCredential;
@@ -204,7 +203,7 @@ class _NumberScreenState extends State<NumberScreen> {
       String body = json.encode(data);
 
       Response response = await get(
-        'https://cargobgi.net/wp-json/v3/check_phone_new?phone_number=$phoneNumber&country_code=$urlEncoded',
+          Uri.parse('https://cargobgi.net/wp-json/v3/check_phone_new?phone_number=$phoneNumber&country_code=$urlEncoded'),
       );
 
 

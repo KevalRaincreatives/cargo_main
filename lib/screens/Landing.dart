@@ -27,7 +27,7 @@ class _LandingState extends State<Landing> {
 
 // Toggle this for testing Crashlytics in your app locally.
   final _kTestingCrashlytics = true;
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  FirebaseMessaging _firebaseMessaging;
   Future<void> _initializeFlutterFireFuture;
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
 
@@ -70,6 +70,7 @@ class _LandingState extends State<Landing> {
   void initState() {
     super.initState();
     _initializeFlutterFireFuture = _initializeFlutterFire();
+    _firebaseMessaging = FirebaseMessaging.instance;
     var initializationSettingsAndroid = new AndroidInitializationSettings('app_icon');
     var initializationSettingsIOS = new IOSInitializationSettings();
     var initializationSettings = new InitializationSettings(android: initializationSettingsAndroid,iOS: initializationSettingsIOS);
@@ -80,12 +81,40 @@ class _LandingState extends State<Landing> {
     fetchtoken();
   }
 
+  Future<void> setupInteractedMessage() async {
+    // Get any messages which caused the application to open from
+    // a terminated state.
+    RemoteMessage initialMessage =
+    await FirebaseMessaging.instance.getInitialMessage();
 
+    // If the message also contains a data property with a "type" of "chat",
+    // navigate to a chat screen
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+    }
+
+    // Also handle any interaction when the app is in the background via a
+    // Stream listener
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  }
+
+  void _handleMessage(RemoteMessage message) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String _message = message.data['notification']['body'];
+    print('notimsg $_message');
+
+    String _order = message.data['data']['shipment_id'];
+    prefs.setString('order_id', _order);
+    launchScreen(context, OrderDetailScreen.tag);
+
+
+  }
 
 
 
   void firebaseCloudMessaging_Listeners() async{
-    if (Platform.isIOS) iOS_Permission();
+    // if (Platform.isIOS) iOS_Permission();
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     _firebaseMessaging.getToken().then((token){
@@ -93,35 +122,16 @@ class _LandingState extends State<Landing> {
       print(token);
     });
 
-//    void showNotification(Map<String, dynamic> msg) async{
-//      print(msg);
-//      var android = new AndroidNotificationDetails(
-//          'my_package', 'my_organization', 'notification_channel', importance: Importance.Max, priority: Priority.High);
-//      var iOS = new IOSNotificationDetails();
-//      var platform=new NotificationDetails(android: android, iOS: iOS);
-//      await flutterLocalNotificationsPlugin.show(
-//        0,'My title', 'This is my custom Notification', platform,);
-//    }
 
-    Future<void> _showNotification() async {
-      const AndroidNotificationDetails androidPlatformChannelSpecifics =
-      AndroidNotificationDetails(
-          'your channel id', 'your channel name', 'your channel description',
-          importance: Importance.max,
-          priority: Priority.high,
-          ticker: 'ticker');
-      const NotificationDetails platformChannelSpecifics =
-      NotificationDetails(android: androidPlatformChannelSpecifics);
-      await flutterLocalNotificationsPlugin.show(
-          0, 'plain title', 'plain body', platformChannelSpecifics,
-          payload: 'item x');
-    }
+    setupInteractedMessage();
+
+
     // Method 2
     Future _showNotificationWithDefaultSound(String body,String title,String order) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('order_id', order);
       AndroidNotificationDetails androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-          'your channel id', 'your channel name', 'your channel description',
+          'your channel id', 'your channel name',
           importance: Importance.max, priority: Priority.high);
       IOSNotificationDetails iOSPlatformChannelSpecifics = new IOSNotificationDetails();
       var platformChannelSpecifics = new NotificationDetails(android: androidPlatformChannelSpecifics,iOS: iOSPlatformChannelSpecifics);
@@ -133,79 +143,49 @@ class _LandingState extends State<Landing> {
       );
     }
 
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print('on message $message');
-        String _message = message['notification']['body'];
-        String _title = message['notification']['title'];
-        String _order = message['data']['shipment_id'];
-//        String _message = message['notification']['body'];
-//        if(_message.contains('shipping')) {
-//          String _order = message['data']['shipment_id'];
-//          SharedPreferences prefs = await SharedPreferences.getInstance();
-//          prefs.setString('order_id', _order);
-//          print('notimsg $_message');
-//        }else{
-//          String _order = message['data']['quote_id'];
-//          SharedPreferences prefs = await SharedPreferences.getInstance();
-//          prefs.setString('quote_id', _order);
-//          print('notimsg $_message');
-//        }
-        _showNotificationWithDefaultSound(_message,_title,_order);
-//        launchScreen(context, OrderDetailScreen.tag);
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print('on resume $message');
-
-        String _message = message['notification']['body'];
-        print('notimsg $_message');
-
-//        if(_message.contains('shipping')) {
-          String _order = message['data']['shipment_id'];
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString('order_id', _order);
-          launchScreen(context, OrderDetailScreen.tag);
-//        }else {
-//          String _order = message['data']['quote_id'];
-//          SharedPreferences prefs = await SharedPreferences.getInstance();
-//          prefs.setString('quote_id', _order);
-//          print('notimsg $_message');
-//          launchScreen(context, QuoteDetailsScreen.tag);
+//     _firebaseMessaging.configure(
+//       onMessage: (Map<String, dynamic> message) async {
+//         print('on message $message');
+//         String _message = message['notification']['body'];
+//         String _title = message['notification']['title'];
+//         String _order = message['data']['shipment_id'];
+//         _showNotificationWithDefaultSound(_message,_title,_order);
+// //        launchScreen(context, OrderDetailScreen.tag);
+//       },
+//       onResume: (Map<String, dynamic> message) async {
+//         print('on resume $message');
 //
-//        }
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print('on launch $message');
-
-        String _message = message['notification']['body'];
-        print('notimsg $_message');
-//        if(_message.contains('shipping')) {
-          String _order = message['data']['shipment_id'];
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString('order_id', _order);
-          launchScreen(context, OrderDetailScreen.tag);
-//        }else {
-//          String _order = message['data']['quote_id'];
-//          SharedPreferences prefs = await SharedPreferences.getInstance();
-//          prefs.setString('quote_id', _order);
-//          print('notimsg $_message');
-//          launchScreen(context, QuoteDetailsScreen.tag);
+//         String _message = message['notification']['body'];
+//         print('notimsg $_message');
 //
-//        }
-      },
-    );
+//           String _order = message['data']['shipment_id'];
+//           SharedPreferences prefs = await SharedPreferences.getInstance();
+//           prefs.setString('order_id', _order);
+//           launchScreen(context, OrderDetailScreen.tag);
+//       },
+//       onLaunch: (Map<String, dynamic> message) async {
+//         print('on launch $message');
+//
+//         String _message = message['notification']['body'];
+//         print('notimsg $_message');
+//           String _order = message['data']['shipment_id'];
+//           SharedPreferences prefs = await SharedPreferences.getInstance();
+//           prefs.setString('order_id', _order);
+//           launchScreen(context, OrderDetailScreen.tag);
+//       },
+//     );
   }
 
-  void iOS_Permission() {
-    _firebaseMessaging.requestNotificationPermissions(
-        IosNotificationSettings(sound: true, badge: true, alert: true)
-    );
-    _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings)
-    {
-      print("Settings registered: $settings");
-    });
-  }
+  // void iOS_Permission() {
+  //   _firebaseMessaging.requestNotificationPermissions(
+  //       IosNotificationSettings(sound: true, badge: true, alert: true)
+  //   );
+  //   _firebaseMessaging.onIosSettingsRegistered
+  //       .listen((IosNotificationSettings settings)
+  //   {
+  //     print("Settings registered: $settings");
+  //   });
+  // }
 
   fetchtoken() async {
     try {

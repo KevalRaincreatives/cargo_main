@@ -121,7 +121,7 @@ class _EnterProfileScreen2State extends State<EnterProfileScreen2> {
       Map<String, String> headers = {'Content-Type': 'application/json'};
 
       Response response = await post(
-        'https://cargobgi.net/wp-json/wc/v3/customers',
+          Uri.parse('https://cargobgi.net/wp-json/wc/v3/customers'),
         headers: headers,
         body: body,
       );
@@ -153,7 +153,7 @@ class _EnterProfileScreen2State extends State<EnterProfileScreen2> {
 //      final jsonResponse = json.decode(body).;
 
       Response response = await get(
-          'https://cargobgi.net/wp-json/wc/v3/data/countries/');
+          Uri.parse('https://cargobgi.net/wp-json/wc/v3/data/countries/'));
       final jsonResponse =
       json.decode(response.body).cast<Map<String, dynamic>>();
 
@@ -172,7 +172,7 @@ class _EnterProfileScreen2State extends State<EnterProfileScreen2> {
   Future<StateHModel> fetchstate(String codes) async {
     try {
       Response response = await get(
-          'https://cargobgi.net/wp-json/wc/v3/data/countries/$codes');
+          Uri.parse('https://cargobgi.net/wp-json/wc/v3/data/countries/$codes'));
 
       final jsonResponse = json.decode(response.body);
       print('not json $jsonResponse');

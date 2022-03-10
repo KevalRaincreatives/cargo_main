@@ -33,7 +33,7 @@ class _TermsConditionScreenState extends State<TermsConditionScreen> {
       };
 
       Response response = await get(
-          'https://cargobgi.net/wp-json/v3/terms-and-conditions',
+          Uri.parse('https://cargobgi.net/wp-json/v3/terms-and-conditions'),
           headers: headers);
 
 //      r.raiseForStatus();

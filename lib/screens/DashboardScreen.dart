@@ -67,7 +67,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       };
 
       Response response = await get(
-          'https://cargobgi.net/wp-json/wc/v3/customers/$UserId',
+          Uri.parse('https://cargobgi.net/wp-json/wc/v3/customers/$UserId'),
           headers: headers);
 
 //      r.raiseForStatus();
@@ -107,7 +107,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       print(msg);
 
       Response response = await post(
-          'https://cargobgi.net/wp-json/v3/view_profile_picture',
+          Uri.parse('https://cargobgi.net/wp-json/v3/view_profile_picture'),
           headers: headers,
           body: msg);
       print('Response body: ${response.body}');
@@ -150,7 +150,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       final msg = jsonEncode({"device_id": device_id});
 
       Response response = await get(
-        'https://cargobgi.net/wp-json/v3/logout?device_id=$device_id',
+          Uri.parse('https://cargobgi.net/wp-json/v3/logout?device_id=$device_id'),
         headers: headers,
       );
       final jsonResponse = json.decode(response.body);

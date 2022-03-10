@@ -59,7 +59,7 @@ class _NewNumberScreenState extends State<NewNumberScreen> {
       };
 
       Response response = await get(
-        'https://cargobgi.net/wp-json/v3/check_phone_new?phone_number=$phoneNumber&country_code=$urlEncoded',
+          Uri.parse('https://cargobgi.net/wp-json/v3/check_phone_new?phone_number=$phoneNumber&country_code=$urlEncoded'),
       );
 
       // Response response = await get(

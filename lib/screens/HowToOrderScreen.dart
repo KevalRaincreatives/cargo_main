@@ -35,7 +35,7 @@ class _HowToOrderScreenState extends State<HowToOrderScreen> {
       };
 
       Response response = await get(
-          'https://cargobgi.net/wp-json/v3/how-to-order',
+          Uri.parse('https://cargobgi.net/wp-json/v3/how-to-order'),
           headers: headers);
 
 //      r.raiseForStatus();

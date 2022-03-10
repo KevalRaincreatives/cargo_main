@@ -39,7 +39,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
       var response2;
 
       response2 = await http
-          .post('https://cargobgi.net/wp-json/v3/contact_submit', body: {
+          .post(Uri.parse('https://cargobgi.net/wp-json/v3/contact_submit'), body: {
         "name": name,
         "phone": phone,
         "email": email,

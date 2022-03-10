@@ -138,7 +138,7 @@ class _AddNewAddressScreen2State extends State<AddNewAddressScreen2> {
       };
 
       Response response = await post(
-        'https://cargobgi.net/wp-json/v3/add_address',
+          Uri.parse('https://cargobgi.net/wp-json/v3/add_address'),
         headers: headers,
         body: body,
       );
@@ -202,7 +202,7 @@ class _AddNewAddressScreen2State extends State<AddNewAddressScreen2> {
       };
 
       Response response = await post(
-        'https://cargobgi.net/wp-json/v3/edit_address',
+          Uri.parse('https://cargobgi.net/wp-json/v3/edit_address'),
         headers: headers,
         body: body,
       );
@@ -226,7 +226,7 @@ class _AddNewAddressScreen2State extends State<AddNewAddressScreen2> {
       Map<String, String> headers = {'Content-Type': 'application/json'};
 
       Response response = await get(
-          'https://cargobgi.net/wp-json/v3/countries');
+          Uri.parse('https://cargobgi.net/wp-json/v3/countries'));
       final jsonResponse = json.decode(response.body);
 
       countryNewModel = new CountryNewModel.fromJson(jsonResponse);
@@ -257,7 +257,7 @@ class _AddNewAddressScreen2State extends State<AddNewAddressScreen2> {
   Future<StateHModel> fetchstate(String codes) async {
     try {
       Response response = await get(
-          'https://cargobgi.net/wp-json/wc/v3/data/countries/$codes');
+          Uri.parse('https://cargobgi.net/wp-json/wc/v3/data/countries/$codes'));
 
       final jsonResponse = json.decode(response.body);
 

@@ -80,7 +80,7 @@ class _RequestQuoteFragmentState extends State<RequestQuoteFragment> {
   Future<PackageTypeModel> fetchpackage() async {
     try {
       Response response =
-          await get('https://cargobgi.net/wp-json/v3/packages');
+          await get(Uri.parse('https://cargobgi.net/wp-json/v3/packages'));
       final jsonResponse = json.decode(response.body);
       print('not json $jsonResponse');
       packageModel = new PackageTypeModel.fromJson(jsonResponse);
@@ -93,7 +93,7 @@ class _RequestQuoteFragmentState extends State<RequestQuoteFragment> {
   Future<ItemTypeModel> fetchitem() async {
     try {
       Response response =
-          await get('https://cargobgi.net/wp-json/v3/items');
+          await get(Uri.parse('https://cargobgi.net/wp-json/v3/items'));
       final jsonResponse = json.decode(response.body);
       print('not json $jsonResponse');
       itemtypeModel = new ItemTypeModel.fromJson(jsonResponse);
@@ -265,7 +265,7 @@ class _RequestQuoteFragmentState extends State<RequestQuoteFragment> {
       };
 
       Response response = await post(
-        'https://cargobgi.net/wp-json/v3/quote',
+          Uri.parse('https://cargobgi.net/wp-json/v3/quote'),
         headers: headers,
         body: body,
       );

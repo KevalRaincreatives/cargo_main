@@ -192,7 +192,7 @@ class _OrderDetailNewScreenState extends State<OrderDetailNewScreen> {
       };
 
       Response response = await get(
-          'https://cargobgi.net/wp-json/v3/shipment_details?shipment_id=$order_id',
+          Uri.parse('https://cargobgi.net/wp-json/v3/shipment_details?shipment_id=$order_id'),
           headers: headers);
       final jsonResponse = json.decode(response.body);
       print('not json $jsonResponse');
@@ -262,7 +262,7 @@ class _OrderDetailNewScreenState extends State<OrderDetailNewScreen> {
       final msg = jsonEncode({"device_id": device_id});
 
       Response response = await get(
-        'https://cargobgi.net/wp-json/v3/logout?device_id=$device_id',
+          Uri.parse('https://cargobgi.net/wp-json/v3/logout?device_id=$device_id'),
         headers: headers,
       );
       final jsonResponse = json.decode(response.body);
@@ -303,7 +303,7 @@ class _OrderDetailNewScreenState extends State<OrderDetailNewScreen> {
       final msg = jsonEncode({"quote_id": order_id, "invoice_id": invo_id});
 
       Response response = await post(
-        'https://cargobgi.net/wp-json/v3/delete_invoice',
+          Uri.parse('https://cargobgi.net/wp-json/v3/delete_invoice'),
         headers: headers,
         body: msg,
       );
@@ -367,7 +367,7 @@ class _OrderDetailNewScreenState extends State<OrderDetailNewScreen> {
       };
 
       Response response = await post(
-        'https://cargobgi.net/wp-json/v3/update_delivery',
+          Uri.parse('https://cargobgi.net/wp-json/v3/update_delivery'),
         headers: headers,
         body: body,
       );

@@ -51,7 +51,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       final msg = jsonEncode({"password": oldpassword.trim(),"new_password":password.trim()});
 
       Response response = await post(
-        'https://cargobgi.net/wp-json/v3/change_password',
+          Uri.parse('https://cargobgi.net/wp-json/v3/change_password'),
         headers: headers,
         body: msg,
       );

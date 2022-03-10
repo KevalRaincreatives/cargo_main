@@ -62,7 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool _visible_text = false;
   int parish_size = 0;
   int new_car = 0;
-  File _image;
+  XFile _image;
   String fnl_img = 'https://secure.gravatar.com/avatar/598b1f668254d0f7097133846aa32daf?s=96&d=mm&r=g';
   final picker = ImagePicker();
   ViewProModel viewProModel;
@@ -94,7 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     setState(() {
       if (pickedFile != null) {
-        _image = File(pickedFile.path);
+        _image = XFile(pickedFile.path);
       } else {
         print('No image selected.');
       }
@@ -102,7 +102,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   _imgFromCamera() async {
-    File image = await ImagePicker.pickImage(
+    final ImagePicker _picker = ImagePicker();
+    final image = await _picker.pickImage(
         source: ImageSource.camera, imageQuality: 50
     );
 
@@ -114,7 +115,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   _imgFromGallery() async {
-    File image = await ImagePicker.pickImage(
+    final ImagePicker _picker = ImagePicker();
+    final image = await _picker.pickImage(
         source: ImageSource.gallery, imageQuality: 50
     );
 
@@ -169,7 +171,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         'Accept': 'application/json'
       };
 
-      File fls = _image;
+      File fls = File(_image.path);
       // String fileName = _image.toString().split('/').last;
       // print(fileName);
       String img = _image.toString().substring(0, _image
@@ -192,7 +194,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
 
       Response response = await post(
-          'https://cargobgi.net/wp-json/v3/update_profile_picture',
+          Uri.parse('https://cargobgi.net/wp-json/v3/update_profile_picture'),
           headers: headers,
           body: msg);
       print('Response body: ${response.body}');
@@ -227,7 +229,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       print(msg);
 
       Response response = await post(
-          'https://cargobgi.net/wp-json/v3/view_profile_picture',
+          Uri.parse('https://cargobgi.net/wp-json/v3/view_profile_picture'),
           headers: headers,
           body: msg);
       print('Response body: ${response.body}');
@@ -264,7 +266,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       print(msg);
 
       Response response = await post(
-          'https://cargobgi.net/wp-json/v3/view_country_code',
+          Uri.parse('https://cargobgi.net/wp-json/v3/view_country_code'),
           headers: headers,
           body: msg);
       print('Response body: ${response.body}');
@@ -288,7 +290,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Map<String, String> headers = {'Content-Type': 'application/json'};
 
       Response response =
-      await get('https://cargobgi.net/wp-json/v3/countries');
+      await get(Uri.parse('https://cargobgi.net/wp-json/v3/countries'));
       final jsonResponse = json.decode(response.body);
 
       countryNewModel = new CountryParishModel.fromJson(jsonResponse);
@@ -386,7 +388,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       String body = json.encode(data2);
 
       Response response = await post(
-          'https://cargobgi.net/wp-json/wc/v3/customers/$UserId',
+          Uri.parse('https://cargobgi.net/wp-json/wc/v3/customers/$UserId'),
           headers: headers,
           body: body);
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -446,7 +448,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       };
 
       Response response = await get(
-          'https://cargobgi.net/wp-json/wc/v3/customers/$UserId',
+          Uri.parse('https://cargobgi.net/wp-json/wc/v3/customers/$UserId'),
           headers: headers);
 
       final jsonResponse = json.decode(response.body);
@@ -821,7 +823,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 )
                                     : CircleAvatar(
                                   // backgroundImage: NetworkImage('https://en.gravatar.com/avatar/491302567ea4eb1e519b54990b8da162'),
-                                  backgroundImage: FileImage(_image),
+                                  backgroundImage: FileImage(File(_image.path)),
                                   radius: 55,
                                 )),
                           ),

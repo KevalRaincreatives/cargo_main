@@ -26,7 +26,7 @@ class _CovidScreenState extends State<CovidScreen> {
       };
 
       Response response = await get(
-          'https://cargobgi.net/wp-json/v3/covid_safety');
+          Uri.parse('https://cargobgi.net/wp-json/v3/covid_safety'));
 
       final jsonResponse = json.decode(response.body);
       print('not json $jsonResponse');

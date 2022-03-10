@@ -44,7 +44,7 @@ class _ForgotResetPassScreenState extends State<ForgotResetPassScreen> {
           jsonEncode({"email": email.trim(), "code": code.trim(), "password": password.trim()});
 
       Response response = await post(
-        'https://cargobgi.net/wp-json/bdpwr/v1/set-password',
+          Uri.parse('https://cargobgi.net/wp-json/bdpwr/v1/set-password'),
         headers: headers,
         body: msg
       );

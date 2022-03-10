@@ -48,7 +48,7 @@ class _OrderFragmentState extends State<OrderFragment> {
       };
 
       Response response = await get(
-          'https://cargobgi.net/wp-json/v3/shipments?user_id=$UserId',
+          Uri.parse('https://cargobgi.net/wp-json/v3/shipments?user_id=$UserId'),
           headers: headers);
       final jsonResponse = json.decode(response.body);
       print('not json $jsonResponse');

@@ -26,7 +26,6 @@ class OtpNewScreen extends StatefulWidget {
 
 class _OtpNewScreenState extends State<OtpNewScreen> {
   ProfileUpdateModel profileUpdateModel;
-  FirebaseUser _firebaseUser;
   String _status;
   String _verificationId='';
   AuthCredential _phoneAuthCredential;
@@ -190,7 +189,7 @@ class _OtpNewScreenState extends State<OtpNewScreen> {
       print(msg);
 
       Response response = await post(
-          'https://cargobgi.net/wp-json/v3/update_country_code',
+          Uri.parse('https://cargobgi.net/wp-json/v3/update_country_code'),
           headers: headers,
           body: msg);
       print('Response body: ${response.body}');
@@ -270,7 +269,7 @@ class _OtpNewScreenState extends State<OtpNewScreen> {
       String body = json.encode(data2);
 
       Response response = await post(
-          'https://cargobgi.net/wp-json/wc/v3/customers/$UserId',
+          Uri.parse('https://cargobgi.net/wp-json/wc/v3/customers/$UserId'),
           headers: headers,
           body: body);
 

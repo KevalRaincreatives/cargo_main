@@ -153,7 +153,7 @@ class _AgentOrderDetailScreenState extends State<AgentOrderDetailScreen> {
       };
 
       Response response = await get(
-          'https://cargobgi.net/wp-json/v3/shipment_details?shipment_id=$order_id',
+          Uri.parse('https://cargobgi.net/wp-json/v3/shipment_details?shipment_id=$order_id'),
           headers: headers);
 
       final jsonResponse = json.decode(response.body);
@@ -226,14 +226,14 @@ class _AgentOrderDetailScreenState extends State<AgentOrderDetailScreen> {
         });
 
         responsefnl = await post(
-            'https://cargobgi.net/wp-json/v3/update_shipping_status',
+            Uri.parse('https://cargobgi.net/wp-json/v3/update_shipping_status'),
             headers: headers,
             body: msg);
       } else {
         final msg = jsonEncode({"status": selectedValue, "quote_id": order_id});
 
         responsefnl = await post(
-            'https://cargobgi.net/wp-json/v3/update_shipping_status',
+        Uri.parse('https://cargobgi.net/wp-json/v3/update_shipping_status'),
             headers: headers,
             body: msg);
       }

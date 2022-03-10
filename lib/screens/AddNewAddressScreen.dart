@@ -131,7 +131,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
       };
 
       Response response = await post(
-        'https://cargobgi.net/wp-json/v3/add_address',
+          Uri.parse('https://cargobgi.net/wp-json/v3/add_address'),
         headers: headers,
         body: body,
       );
@@ -205,7 +205,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
       };
 
       Response response = await post(
-        'https://cargobgi.net/wp-json/v3/edit_address',
+          Uri.parse('https://cargobgi.net/wp-json/v3/edit_address'),
         headers: headers,
         body: body,
       );
@@ -237,7 +237,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
       Map<String, String> headers = {'Content-Type': 'application/json'};
 
       Response response =
-          await get('https://cargobgi.net/wp-json/v3/countries');
+          await get(Uri.parse('https://cargobgi.net/wp-json/v3/countries'));
       final jsonResponse = json.decode(response.body);
 
       countryNewModel = new CountryParishModel.fromJson(jsonResponse);
